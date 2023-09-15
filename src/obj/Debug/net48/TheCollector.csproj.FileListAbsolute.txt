@@ -1,0 +1,9 @@
+C:\Users\KnobbyTacks\Desktop\The Collector\src\bin\Debug\net48\TheCollector.dll
+C:\Users\KnobbyTacks\Desktop\The Collector\src\bin\Debug\net48\TheCollector.pdb
+C:\Users\KnobbyTacks\Desktop\The Collector\src\obj\Debug\net48\TheCollector.csproj.AssemblyReference.cache
+C:\Users\KnobbyTacks\Desktop\The Collector\src\obj\Debug\net48\TheCollector.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\KnobbyTacks\Desktop\The Collector\src\obj\Debug\net48\TheCollector.AssemblyInfoInputs.cache
+C:\Users\KnobbyTacks\Desktop\The Collector\src\obj\Debug\net48\TheCollector.AssemblyInfo.cs
+C:\Users\KnobbyTacks\Desktop\The Collector\src\obj\Debug\net48\TheCollector.csproj.CoreCompileInputs.cache
+C:\Users\KnobbyTacks\Desktop\The Collector\src\obj\Debug\net48\TheCollector.dll
+C:\Users\KnobbyTacks\Desktop\The Collector\src\obj\Debug\net48\TheCollector.pdb
