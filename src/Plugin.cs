@@ -50,10 +50,6 @@ namespace TheCollector
                 TheCollectorRelativeStats.Init();
                 TheCollectorFlapLog.init();
 
-                //On.Player.SpitUpCraftedObject += Player_SpitUpCraftedObject1;
-                //On.Player.GraspsCanBeCrafted += Player_GraspsCanBeCrafted;
-                //On.Player.GrabUpdate += Player_GrabUpdate;
-
                 MachineConnector.SetRegisteredOI("TheCollector", optionsMenuInstance = new TheCollectorOptionsMenu());
 
                 if (ModManager.ActiveMods.Any(mod => mod.id == "dressmyslugcat"))
@@ -73,89 +69,8 @@ namespace TheCollector
             }
         }
 
-        private void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)
-        {
-            orig(self, eu);
-
-            if (self.SlugCatClass.value == "TheCollector" && self.input[0].pckp && self.GraspsCanBeCrafted())
-            {
-                self.craftingObject = true;
-                if (self.craftingObject)
-                {
-                    self.swallowAndRegurgitateCounter++;
-                    if(self.swallowAndRegurgitateCounter > 105)
-                    {
-                        if (self.spearOnBack != null)
-                        {
-                            self.spearOnBack.increment = false;
-                            self.spearOnBack.interactionLocked = true;
-
-                            self.SpitUpCraftedObject();
-                            self.swallowAndRegurgitateCounter = 0;
-                        }
-                    }
-                }
-            }
-        }
-
-        private bool Player_GraspsCanBeCrafted(On.Player.orig_GraspsCanBeCrafted orig, Player self)
-        {
-
-            if (self.SlugCatClass.value == "TheCollector")
-            {
-                return true;
-            }
-            return orig(self);
-        }
-
-        private void Player_SpitUpCraftedObject1(On.Player.orig_SpitUpCraftedObject orig, Player self)
-        {
-            var room = self.room;
-            bool flag = false;
-            float hue = 0f;
-
-            if (self.SlugCatClass.value == "TheCollector" && self.FoodInStomach > 0)
-            {
-                hue = 0.5f;
-
-                for (int i = 0; i < self.grasps.Length; i++)
-                {
-                    AbstractPhysicalObject abstractPhysicalObject = self.grasps[i].grabbed.abstractPhysicalObject;
-                    if ((abstractPhysicalObject.type == AbstractPhysicalObject.AbstractObjectType.Spear) && self.grasps[i] is not null && self.grasps[i].grabbed is Spear spear && !spear.bugSpear)
-                    {
-                        self.ReleaseGrasp(i);
-                        abstractPhysicalObject.realizedObject.RemoveFromRoom();
-                        room.abstractRoom.RemoveEntity(abstractPhysicalObject);
-
-                        self.SubtractFood(1);
-
-                        AbstractSpear abstractSpear = new AbstractSpear(self.room.world, null, self.coord, self.room.game.GetNewID(), false, flag);
-                        abstractSpear.hue = hue;
-                        room.abstractRoom.AddEntity(abstractSpear);
-                        abstractSpear.RealizeInRoom();
-
-                        if (self.FreeHand() != -1)
-                        {
-                            self.SlugcatGrab(abstractSpear.realizedObject, self.FreeHand());
-                        }
-                    }
-                }
-            }
-            return;
-        }
-
         public void SetupDMSSprites()
         {
-            //Glape Gills??????? Whiskers?!?!?!?!?!
-            //SpriteDefinitions.AddSprite(new AvailableSprite
-            //{
-            //    Name = "WHISKERS",
-            //    Description = "Whiskers",
-            //    GallerySprite = "LizardScaleA0",
-            //    RequiredSprites = new List<string> { "LizardScaleA0" },
-            //    Slugcats = new List<string> { "TheCollector" }
-            //});
-
             var sheetID = "TheCollector.Legacy";
 
             for (int index = 0; index < 4; index++)

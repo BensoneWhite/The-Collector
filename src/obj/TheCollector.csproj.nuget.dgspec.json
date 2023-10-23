@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\KnobbyTacks\\Desktop\\The Collector\\src\\TheCollector.csproj": {}
+    "C:\\Users\\KnobbyTacks\\Documents\\GitHub\\The-Collector\\src\\TheCollector.csproj": {}
   },
   "projects": {
-    "C:\\Users\\KnobbyTacks\\Desktop\\The Collector\\src\\TheCollector.csproj": {
+    "C:\\Users\\KnobbyTacks\\Documents\\GitHub\\The-Collector\\src\\TheCollector.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\KnobbyTacks\\Desktop\\The Collector\\src\\TheCollector.csproj",
+        "projectUniqueName": "C:\\Users\\KnobbyTacks\\Documents\\GitHub\\The-Collector\\src\\TheCollector.csproj",
         "projectName": "TheCollector",
-        "projectPath": "C:\\Users\\KnobbyTacks\\Desktop\\The Collector\\src\\TheCollector.csproj",
+        "projectPath": "C:\\Users\\KnobbyTacks\\Documents\\GitHub\\The-Collector\\src\\TheCollector.csproj",
         "packagesPath": "C:\\Users\\KnobbyTacks\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\KnobbyTacks\\Desktop\\The Collector\\src\\obj\\",
+        "outputPath": "C:\\Users\\KnobbyTacks\\Documents\\GitHub\\The-Collector\\src\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\KnobbyTacks\\AppData\\Roaming\\NuGet\\NuGet.Config",

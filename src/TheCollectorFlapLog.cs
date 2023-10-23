@@ -48,7 +48,7 @@ namespace TheCollector
                 }
 
                 bool flag2 = self.eatMeat >= 20 || self.maulTimer >= 15;
-                bool jumper = self.wantToJump > 0 /*&& (self.input[0].pckp)*/;
+                bool jumper = self.wantToJump > 0;
                 bool WasJumped = false;
 
                 if (player.JumpCollectorCount > 0 && (self.Consious || self.dead))
@@ -67,7 +67,6 @@ namespace TheCollector
                         player.JumpCollectorCount--;
                     }
                 }
-                //player.JumpCollectorCooldown -= 1f;
                 if (jumper && player.Jumptimer <= 0 && !player.CollectorJumped && self.canJump <= 0 && !flag2 && (self.input[0].y >= 0 || (self.input[0].y < 0 && (self.bodyMode != Player.BodyModeIndex.ZeroG || self.gravity <= 0.1f))) && self.Consious && self.bodyMode != Player.BodyModeIndex.Crawl && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && self.animation != Player.AnimationIndex.HangFromBeam && self.animation != Player.AnimationIndex.ClimbOnBeam && self.bodyMode != Player.BodyModeIndex.WallClimb && self.bodyMode != Player.BodyModeIndex.Swimming && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab && self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.onBack == null)
                 {
                     player.CollectorJumped = true;
@@ -75,7 +74,7 @@ namespace TheCollector
                     player.JumpCollectorLock = 40;
                     player.NoGrabCollector = 5;
                     Vector2 pos = self.firstChunk.pos;
-                    self.animation = Player.AnimationIndex.RocketJump; //added
+                    self.animation = Player.AnimationIndex.RocketJump;
 
                     room.PlaySound(TheCollectorEnums.flap, pos);
 
@@ -157,8 +156,6 @@ namespace TheCollector
                 {
                     WasJumped = false;
                 }
-
-                //Debug.LogError(player.Jumptimer);
 
                 //----------------------------------------------------------------------------------------------------------------------------
                 //Glide
@@ -306,7 +303,7 @@ namespace TheCollector
                         {
                             player.SlideStamina = Mathf.Min(player.SlideStamina + player.SlideRecovery, player.SlideStaminaMax);
                         }
-                        if (self.wantToJump > 0 && player.SlideStamina > player.MinimumSlideStamina && player.CanSustainFlight() && player.CollectorJumped /*&& player.Jumptimer <= 0*/)
+                        if (self.wantToJump > 0 && player.SlideStamina > player.MinimumSlideStamina && player.CanSustainFlight() && player.CollectorJumped)
                         {
                             player.InitiateSlide();
                         }
