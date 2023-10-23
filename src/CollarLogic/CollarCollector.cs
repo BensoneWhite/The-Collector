@@ -14,7 +14,6 @@ namespace TheCollector
 
     public class CollarCollector  
     {
-        public static ConditionalWeakTable<Player, TheCollectorEX> SlideData = new();
         public static void Init()
         {
             On.Player.GrabUpdate += GrabTheGoddamnPorlOrDontYourChoice;
@@ -24,8 +23,6 @@ namespace TheCollector
         private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
         {
             orig(self, abstractCreature, world);
-
-            SlideData.Add(self, new TheCollectorEX(self));
         }
         private static void GrabTheGoddamnPorlOrDontYourChoice(On.Player.orig_GrabUpdate orig, Player self, bool eu)
         {
@@ -49,16 +46,11 @@ namespace TheCollector
                 Debug.LogException(err);
                 return;
             }
-            if (!SlideData.TryGetValue(self, out var player) || !player.isCollector)
-            {
-                return;
-            }
-
             for (int index = 0; index < self.grasps.Length; index++)
             {
                 if (self.grasps[index]?.grabbed is IPlayerEdible) return;
             }
-            if (self.Yippee().porlztorage != null && !player.isSliding)
+            if (self.Yippee().porlztorage != null)
             {
                 self.Yippee().porlztorage.increment = self.input[0].pckp;
                 self.Yippee().porlztorage.Update(eu, self);
@@ -89,14 +81,7 @@ namespace TheCollector
                 Debug.LogException(err);
                 return;
             }
-            if (!SlideData.TryGetValue(self, out var player) || !player.isCollector)
-            {
-                return;
-            }
-            if (!player.isSliding)
-            {
-                self.Yippee().porlztorage?.GraphicsModuleUpdated(actuallyViewed, eu);
-            }
+            self.Yippee().porlztorage?.GraphicsModuleUpdated(actuallyViewed, eu);
             orig(self, actuallyViewed, eu);
         }
 

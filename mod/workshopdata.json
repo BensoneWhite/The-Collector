@@ -12,5 +12,6 @@
     "Campaigns"
   ],
   "WorkshopID": 2980656452,
-  "UploadFilesOnly": true
+  "UploadFilesOnly": true,
+  "UploadThumbnail": false
 }

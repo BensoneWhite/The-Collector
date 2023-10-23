@@ -18,6 +18,19 @@ namespace TheCollector
             porl = new SoundID("porl", true);
 
         }
+
+        public static void UnregisterValues()
+        {
+            Unregister(flap);
+            Unregister(wind);
+            Unregister(porl);
+
+        }
+
+        private static void Unregister<T>(ExtEnum<T> extEnum) where T : ExtEnum<T>
+        {
+            extEnum?.Unregister();
+        }
     }
 }
 
