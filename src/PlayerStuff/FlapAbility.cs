@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using System.Runtime.CompilerServices;
 
 namespace TheCollector
 {
-    internal class TheCollectorFlapLog
+    internal class FlapAbility
     {
         public static ConditionalWeakTable<Player, TheCollectorEX> ExtraJumpdata = new();
         public static bool LimitSpeed = true;
@@ -67,7 +61,7 @@ namespace TheCollector
                         player.JumpCollectorCount--;
                     }
                 }
-                if (jumper && player.Jumptimer <= 0 && !player.CollectorJumped && self.canJump <= 0 && !flag2 && (self.input[0].y >= 0 || (self.input[0].y < 0 && (self.bodyMode != Player.BodyModeIndex.ZeroG || self.gravity <= 0.1f))) && self.Consious && self.bodyMode != Player.BodyModeIndex.Crawl && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && self.animation != Player.AnimationIndex.HangFromBeam && self.animation != Player.AnimationIndex.ClimbOnBeam && self.bodyMode != Player.BodyModeIndex.WallClimb && self.bodyMode != Player.BodyModeIndex.Swimming && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab && self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.onBack == null)
+                if (jumper && player.Jumptimer <= 0 && !player.CollectorJumped && self.canJump <= 0 && !flag2 && (self.input[0].y >= 0 || self.input[0].y < 0 && (self.bodyMode != Player.BodyModeIndex.ZeroG || self.gravity <= 0.1f)) && self.Consious && self.bodyMode != Player.BodyModeIndex.Crawl && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && self.animation != Player.AnimationIndex.HangFromBeam && self.animation != Player.AnimationIndex.ClimbOnBeam && self.bodyMode != Player.BodyModeIndex.WallClimb && self.bodyMode != Player.BodyModeIndex.Swimming && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab && self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.onBack == null)
                 {
                     player.CollectorJumped = true;
                     WasJumped = true;
@@ -76,7 +70,7 @@ namespace TheCollector
                     Vector2 pos = self.firstChunk.pos;
                     self.animation = Player.AnimationIndex.RocketJump;
 
-                    room.PlaySound(TheCollectorEnums.flap, pos);
+                    room.PlaySound(TCEnums.Sound.flap, pos);
 
                     if (self.bodyMode == Player.BodyModeIndex.ZeroG || room.gravity == 0f || self.gravity == 0f)
                     {
@@ -85,8 +79,8 @@ namespace TheCollector
 
                         while (inputx == 0f && inputy == 0f)
                         {
-                            inputx = ((!((double)UnityEngine.Random.value <= 0.33)) ? (((double)UnityEngine.Random.value <= 0.5) ? 1 : (-1)) : 0);
-                            inputy = ((!((double)UnityEngine.Random.value <= 0.33)) ? (((double)UnityEngine.Random.value <= 0.5) ? 1 : (-1)) : 0);
+                            inputx = !((double)Random.value <= 0.33) ? (double)Random.value <= 0.5 ? 1 : -1 : 0;
+                            inputy = !((double)Random.value <= 0.33) ? (double)Random.value <= 0.5 ? 1 : -1 : 0;
                         }
                         self.bodyChunks[0].vel.x = 9f * inputx;
                         self.bodyChunks[0].vel.y = 9f * inputy;
@@ -122,13 +116,13 @@ namespace TheCollector
 
                         if (input[0].y == 1)
                         {
-                            self.bodyChunks[0].vel.x = 10f * (float)input[0].x;
-                            self.bodyChunks[1].vel.x = 8f * (float)input[0].x;
+                            self.bodyChunks[0].vel.x = 10f * input[0].x;
+                            self.bodyChunks[1].vel.x = 8f * input[0].x;
                         }
                         else
                         {
-                            self.bodyChunks[0].vel.x = 15f * (float)input[0].x;
-                            self.bodyChunks[1].vel.x = 13f * (float)input[0].x;
+                            self.bodyChunks[0].vel.x = 15f * input[0].x;
+                            self.bodyChunks[1].vel.x = 13f * input[0].x;
                         }
 
                         player.JumpCollectorCount++;
@@ -152,7 +146,7 @@ namespace TheCollector
                     player.Jumptimer--;
                 }
 
-                if(player.Jumptimer == 0)
+                if (player.Jumptimer == 0)
                 {
                     WasJumped = false;
                 }
@@ -190,7 +184,7 @@ namespace TheCollector
 
                         if (LimitSpeed)
                         {
-                            speed = RWCustom.Custom.LerpAndTick(speed, 10f, 0.001f, 0.3f);
+                            speed = Custom.LerpAndTick(speed, 10f, 0.001f, 0.3f);
 
                             if (speed >= 10f)
                             {
@@ -235,7 +229,7 @@ namespace TheCollector
                         }
                         if (!LimitSpeed)
                         {
-                            speed = RWCustom.Custom.LerpAndTick(speed, 0f, 0.005f, 0.003f);
+                            speed = Custom.LerpAndTick(speed, 0f, 0.005f, 0.003f);
 
                             if (speed == 0f)
                             {

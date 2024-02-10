@@ -1,10 +1,4 @@
-﻿using TheCollector;
-using SlugBase.Features;
-using SlugBase;
-using System.Linq;
-using System;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using SlugBase;
 
 namespace TheCollector
 {
@@ -55,7 +49,7 @@ namespace TheCollector
                 Name = extEnum as SlugcatStats.Name;
             }
             windSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
-            windSound.sound = TheCollectorEnums.wind;
+            windSound.sound = TCEnums.Sound.wind;
             windSound.Pitch = 1f;
             windSound.Volume = 1f;
             SlideStamina = SlideStaminaMax;
@@ -91,8 +85,6 @@ namespace TheCollector
             }
             return SlideStamina > 0 && preventSlide == 0 && player.canJump <= 0 && player.bodyMode != Player.BodyModeIndex.Crawl && player.bodyMode != Player.BodyModeIndex.CorridorClimb && player.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && player.animation != Player.AnimationIndex.HangFromBeam && player.animation != Player.AnimationIndex.ClimbOnBeam && player.bodyMode != Player.BodyModeIndex.WallClimb && player.bodyMode != Player.BodyModeIndex.Swimming && player.Consious && !player.Stunned && player.animation != Player.AnimationIndex.AntlerClimb && player.animation != Player.AnimationIndex.VineGrab && player.animation != Player.AnimationIndex.ZeroGPoleGrab;
         }
-
-        //Jump variables
 
         public int JumpCollectorLock;
         public int cooldownAlone;

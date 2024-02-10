@@ -1,15 +1,4 @@
-﻿using BepInEx;
-using static SlugBase.Features.FeatureTypes;
-using SlugBase.Features;
-using System;
-using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using DressMySlugcat;
-using System.Security.Permissions;
-using static DressMySlugcat.SpriteDefinitions;
-
-#pragma warning disable CS0618
+﻿#pragma warning disable CS0618
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 
 namespace TheCollector
@@ -23,11 +12,8 @@ namespace TheCollector
         static bool _Initialized;
         private TheCollectorOptionsMenu optionsMenuInstance;
 
-        private void LogInfo(object ex) => Logger.LogInfo(ex);
-
         public void OnEnable()
         {
-            LogInfo("The Collector is working? SO TRUE! IT IS!!");
             On.RainWorld.OnModsInit += RainWorld_OnModsInit;
         }
 
@@ -44,11 +30,11 @@ namespace TheCollector
                 if (_Initialized) { return; }
                 _Initialized = true;
 
-                TheCollectorEnums.RegisterValues();
-                CollarCollector.Init();
+                TCEnums.Init();
+                PorlCollar.Init();
 
-                TheCollectorRelativeStats.Init();
-                TheCollectorFlapLog.init();
+                StatsHooks.Init();
+                FlapAbility.init();
 
                 MachineConnector.SetRegisteredOI("TheCollector", optionsMenuInstance = new TheCollectorOptionsMenu());
 

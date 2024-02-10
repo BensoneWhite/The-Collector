@@ -8,7 +8,7 @@ using static Player;
 
 namespace TheCollector
 {
-    internal class TheCollectorRelativeStats
+    internal class StatsHooks
     {
         public static void Init()
         {
