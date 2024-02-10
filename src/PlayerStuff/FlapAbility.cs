@@ -11,57 +11,45 @@ namespace TheCollector
         public static void init()
         {
             On.Player.ctor += Player_ctor;
-            On.Player.UpdateMSC += Player_UpdateMSC;
+            On.Player.UpdateMSC += Glide;
+            On.Player.UpdateMSC += Flap;
+            On.Player.Update += Player_Update;
         }
 
-        private static void Player_UpdateMSC(On.Player.orig_UpdateMSC orig, Player self)
+        private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
+        {
+            orig(self, eu);
+            Debug.LogWarning($"Body Mode: {self.bodyMode.value}");
+            Debug.LogWarning($"Animation: {self.animation.value}");
+        }
+
+        private static void Flap(On.Player.orig_UpdateMSC orig, Player self)
         {
             orig(self);
-
-            var room = self.room;
-            var input = self.input;
-            var jumps = Mathf.Max(1, 3);
-
-            const float normalGravity = 0.9f;
-            const float normalAirFriction = 0.999f;
-            const float flightGravity = 0.12f;
-            const float flightAirFriction = 0.7f;
-            const float flightKickinDuration = 6f;
-
 
             if (!ExtraJumpdata.TryGetValue(self, out var player) || !player.isCollector)
             {
                 return;
             }
 
-            if (!self.dead && self.slugcatStats.name.value == "TheCollector" && self is not null && self.room is not null)
+            var room = self.room;
+            var input = self.input;
+            var jumps = 1;
+
+            if (!self.dead && self.SlugCatClass.value == "TheCollector" && self != null && room != null)
             {
                 if (player.JumpCollectorLock > 0)
                 {
                     player.JumpCollectorLock--;
                 }
 
-                bool flag2 = self.eatMeat >= 20 || self.maulTimer >= 15;
-                bool jumper = self.wantToJump > 0;
+                bool inputXY = (self.input[0].y >= 0 || self.input[0].y < 0 && (self.bodyMode != Player.BodyModeIndex.ZeroG || self.gravity <= 0.1f));
+                bool jump = self.wantToJump > 0 && player.Jumptimer <= 0 && !player.CollectorJumped && self.canJump <= 0;
+                bool maul = self.eatMeat >= 20 || self.maulTimer >= 15;
                 bool WasJumped = false;
+                bool animation = self.bodyMode != Player.BodyModeIndex.Crawl && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && self.animation != Player.AnimationIndex.HangFromBeam && self.animation != Player.AnimationIndex.ClimbOnBeam && self.bodyMode != Player.BodyModeIndex.WallClimb && self.bodyMode != Player.BodyModeIndex.Swimming && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab && self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.animation != Player.AnimationIndex.HangFromBeam && self.bodyMode != Player.BodyModeIndex.ClimbingOnBeam && self.animation != Player.AnimationIndex.GetUpOnBeam && self.animation != Player.AnimationIndex.StandOnBeam;
 
-                if (player.JumpCollectorCount > 0 && (self.Consious || self.dead))
-                {
-                    player.JumpCollectorCooldown -= 1;
-                    if (player.JumpCollectorCooldown <= 0f)
-                    {
-                        if (player.JumpCollectorCount >= jumps)
-                        {
-                            player.JumpCollectorCooldown = 40f;
-                        }
-                        else
-                        {
-                            player.JumpCollectorCooldown = 60f;
-                        }
-                        player.JumpCollectorCount--;
-                    }
-                }
-                if (jumper && player.Jumptimer <= 0 && !player.CollectorJumped && self.canJump <= 0 && !flag2 && (self.input[0].y >= 0 || self.input[0].y < 0 && (self.bodyMode != Player.BodyModeIndex.ZeroG || self.gravity <= 0.1f)) && self.Consious && self.bodyMode != Player.BodyModeIndex.Crawl && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && self.animation != Player.AnimationIndex.HangFromBeam && self.animation != Player.AnimationIndex.ClimbOnBeam && self.bodyMode != Player.BodyModeIndex.WallClimb && self.bodyMode != Player.BodyModeIndex.Swimming && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab && self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.onBack == null)
+                if (jump && !maul && inputXY && self.Consious && animation && self.onBack == null)
                 {
                     player.CollectorJumped = true;
                     WasJumped = true;
@@ -86,7 +74,6 @@ namespace TheCollector
                         self.bodyChunks[0].vel.y = 9f * inputy;
                         self.bodyChunks[1].vel.x = 8f * inputx;
                         self.bodyChunks[1].vel.y = 8f * inputy;
-                        player.JumpCollectorCooldown = 150f;
                         player.JumpCollectorCount++;
                     }
                     else
@@ -126,7 +113,6 @@ namespace TheCollector
                         }
 
                         player.JumpCollectorCount++;
-                        player.JumpCollectorCooldown = 150f;
                     }
                 }
 
@@ -135,9 +121,9 @@ namespace TheCollector
                     player.CollectorJumped = false;
                 }
 
-                if ((self.wantToJump > 0 || WasJumped) && !(player.Jumptimer > 0))
+                if (self.bodyMode == Player.BodyModeIndex.WallClimb && !(player.Jumptimer > 0))
                 {
-                    float JumpDelay = 0.35f;
+                    float JumpDelay = 0.25f;
                     player.Jumptimer = (int)(JumpDelay * 40f);
                 }
 
@@ -150,11 +136,28 @@ namespace TheCollector
                 {
                     WasJumped = false;
                 }
+            }
+        }
 
-                //----------------------------------------------------------------------------------------------------------------------------
-                //Glide
-                //----------------------------------------------------------------------------------------------------------------------------
+        private static void Glide(On.Player.orig_UpdateMSC orig, Player self)
+        {
+            orig(self);
 
+            if (!ExtraJumpdata.TryGetValue(self, out var player) || !player.isCollector)
+            {
+                return;
+            }
+
+            var room = self.room;
+
+            const float normalGravity = 0.9f;
+            const float normalAirFriction = 0.999f;
+            const float flightGravity = 0.12f;
+            const float flightAirFriction = 0.7f;
+            const float flightKickinDuration = 6f;
+
+            if (!self.dead && self.slugcatStats.name.value == "TheCollector" && self is not null && room is not null)
+            {
                 if (player.CanSlide)
                 {
                     if (self.animation == Player.AnimationIndex.HangFromBeam)

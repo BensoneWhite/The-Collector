@@ -92,8 +92,6 @@ namespace TheCollector
         public int NoGrabCollector;
         public int Jumptimer;
 
-        public float JumpCollectorCooldown;
-
         public bool CollectorJumped;
         public bool Jumping;
 
