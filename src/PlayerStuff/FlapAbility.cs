@@ -13,7 +13,7 @@ namespace TheCollector
             On.Player.ctor += Player_ctor;
             On.Player.UpdateMSC += Glide;
             On.Player.UpdateMSC += Flap;
-            On.Player.Update += Player_Update;
+            //On.Player.Update += Player_Update;
         }
 
         private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
@@ -43,13 +43,13 @@ namespace TheCollector
                     player.JumpCollectorLock--;
                 }
 
-                bool inputXY = (self.input[0].y >= 0 || self.input[0].y < 0 && (self.bodyMode != Player.BodyModeIndex.ZeroG || self.gravity <= 0.1f));
+                bool inputXY = (self.input[0].y >= 0 || self.input[0].y < 0);
                 bool jump = self.wantToJump > 0 && player.Jumptimer <= 0 && !player.CollectorJumped && self.canJump <= 0;
                 bool maul = self.eatMeat >= 20 || self.maulTimer >= 15;
                 bool WasJumped = false;
-                bool animation = self.bodyMode != Player.BodyModeIndex.Crawl && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && self.animation != Player.AnimationIndex.HangFromBeam && self.animation != Player.AnimationIndex.ClimbOnBeam && self.bodyMode != Player.BodyModeIndex.WallClimb && self.bodyMode != Player.BodyModeIndex.Swimming && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab && self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.animation != Player.AnimationIndex.HangFromBeam && self.bodyMode != Player.BodyModeIndex.ClimbingOnBeam && self.animation != Player.AnimationIndex.GetUpOnBeam && self.animation != Player.AnimationIndex.StandOnBeam;
+                bool animation = self.animation != Player.AnimationIndex.VineGrab &&  self.bodyMode != Player.BodyModeIndex.Crawl && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && self.animation != Player.AnimationIndex.HangFromBeam && self.animation != Player.AnimationIndex.ClimbOnBeam && self.bodyMode != Player.BodyModeIndex.WallClimb && self.bodyMode != Player.BodyModeIndex.Swimming && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab && self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.animation != Player.AnimationIndex.HangFromBeam && self.bodyMode != Player.BodyModeIndex.ClimbingOnBeam && self.animation != Player.AnimationIndex.GetUpOnBeam && self.animation != Player.AnimationIndex.StandOnBeam;
 
-                if (jump && !maul && inputXY && self.Consious && animation && self.onBack == null)
+                if (!WasJumped && jump && !maul && inputXY && self.Consious && animation && self.onBack == null)
                 {
                     player.CollectorJumped = true;
                     WasJumped = true;
@@ -58,9 +58,15 @@ namespace TheCollector
                     Vector2 pos = self.firstChunk.pos;
                     self.animation = Player.AnimationIndex.RocketJump;
 
+                    if (self.bodyMode == Player.BodyModeIndex.ZeroG)
+                    {
+                        self.standing = true;
+                    }
+
                     room.PlaySound(TCEnums.Sound.flap, pos);
 
-                    if (self.bodyMode == Player.BodyModeIndex.ZeroG || room.gravity == 0f || self.gravity == 0f)
+
+                    if ((self.bodyMode == Player.BodyModeIndex.ZeroG || room.gravity == 0f || self.gravity == 0f) && player.Jumptimer <= 0)
                     {
                         float inputx = self.input[0].x;
                         float inputy = self.input[0].y;
@@ -75,6 +81,9 @@ namespace TheCollector
                         self.bodyChunks[1].vel.x = 8f * inputx;
                         self.bodyChunks[1].vel.y = 8f * inputy;
                         player.JumpCollectorCount++;
+
+                        float JumpDelay = 2f;
+                        player.Jumptimer = (int)(JumpDelay * 40f);
                     }
                     else
                     {
@@ -121,7 +130,7 @@ namespace TheCollector
                     player.CollectorJumped = false;
                 }
 
-                if (self.bodyMode == Player.BodyModeIndex.WallClimb && !(player.Jumptimer > 0))
+                if (self.bodyMode == Player.BodyModeIndex.WallClimb && player.Jumptimer <= 0)
                 {
                     float JumpDelay = 0.25f;
                     player.Jumptimer = (int)(JumpDelay * 40f);
