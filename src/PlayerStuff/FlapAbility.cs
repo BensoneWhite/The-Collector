@@ -13,14 +13,15 @@ namespace TheCollector
             On.Player.ctor += Player_ctor;
             On.Player.UpdateMSC += Glide;
             On.Player.UpdateMSC += Flap;
-            //On.Player.Update += Player_Update;
+            On.Player.Update += Player_Update;
         }
 
         private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
         {
             orig(self, eu);
-            Debug.LogWarning($"Body Mode: {self.bodyMode.value}");
-            Debug.LogWarning($"Animation: {self.animation.value}");
+
+            //Debug.LogWarning($"BodyMode: {self.bodyMode}");
+            //Debug.LogWarning($"Animation: {self.animation}");
         }
 
         private static void Flap(On.Player.orig_UpdateMSC orig, Player self)
@@ -47,7 +48,7 @@ namespace TheCollector
                 bool jump = self.wantToJump > 0 && player.Jumptimer <= 0 && !player.CollectorJumped && self.canJump <= 0;
                 bool maul = self.eatMeat >= 20 || self.maulTimer >= 15;
                 bool WasJumped = false;
-                bool animation = self.animation != Player.AnimationIndex.VineGrab &&  self.bodyMode != Player.BodyModeIndex.Crawl && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && self.animation != Player.AnimationIndex.HangFromBeam && self.animation != Player.AnimationIndex.ClimbOnBeam && self.bodyMode != Player.BodyModeIndex.WallClimb && self.bodyMode != Player.BodyModeIndex.Swimming && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab && self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.animation != Player.AnimationIndex.HangFromBeam && self.bodyMode != Player.BodyModeIndex.ClimbingOnBeam && self.animation != Player.AnimationIndex.GetUpOnBeam && self.animation != Player.AnimationIndex.StandOnBeam;
+                bool animation = self.animation != Player.AnimationIndex.VineGrab && self.bodyMode != Player.BodyModeIndex.Crawl && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && self.animation != Player.AnimationIndex.HangFromBeam && self.animation != Player.AnimationIndex.ClimbOnBeam && self.bodyMode != Player.BodyModeIndex.WallClimb && self.bodyMode != Player.BodyModeIndex.Swimming && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab && self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.animation != Player.AnimationIndex.HangFromBeam && self.bodyMode != Player.BodyModeIndex.ClimbingOnBeam && self.animation != Player.AnimationIndex.GetUpOnBeam && self.animation != Player.AnimationIndex.StandOnBeam;
 
                 if (!WasJumped && jump && !maul && inputXY && self.Consious && animation && self.onBack == null)
                 {
@@ -133,6 +134,12 @@ namespace TheCollector
                 if (self.bodyMode == Player.BodyModeIndex.WallClimb && player.Jumptimer <= 0)
                 {
                     float JumpDelay = 0.25f;
+                    player.Jumptimer = (int)(JumpDelay * 40f);
+                }
+
+                if (self.bodyMode == Player.BodyModeIndex.CorridorClimb && player.Jumptimer <= 0)
+                {
+                    float JumpDelay = 0.75f;
                     player.Jumptimer = (int)(JumpDelay * 40f);
                 }
 
