@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using UnityEngine.Assertions.Must;
 
 namespace TheCollector
 {
@@ -13,15 +14,6 @@ namespace TheCollector
             On.Player.ctor += Player_ctor;
             On.Player.UpdateMSC += Glide;
             On.Player.UpdateMSC += Flap;
-            On.Player.Update += Player_Update;
-        }
-
-        private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
-        {
-            orig(self, eu);
-
-            //Debug.LogWarning($"BodyMode: {self.bodyMode}");
-            //Debug.LogWarning($"Animation: {self.animation}");
         }
 
         private static void Flap(On.Player.orig_UpdateMSC orig, Player self)
@@ -57,7 +49,23 @@ namespace TheCollector
                     player.JumpCollectorLock = 40;
                     player.NoGrabCollector = 5;
                     Vector2 pos = self.firstChunk.pos;
-                    self.animation = Player.AnimationIndex.RocketJump;
+                    if (self.input[0].x != 0)
+                    {
+                        self.animation = Player.AnimationIndex.RocketJump;
+                    }
+                    else
+                    {
+                        for (int l = 0; l < 2; l++)
+                        {
+                            if (self.bodyChunks[l].ContactPoint.x != 0 || self.bodyChunks[l].ContactPoint.y != 0)
+                            {
+                                self.animation = Player.AnimationIndex.None;
+                                self.bodyMode = Player.BodyModeIndex.Stand;
+                                self.standing = self.bodyChunks[0].pos.y > self.bodyChunks[1].pos.y;
+                                break;
+                            }
+                        }
+                    }
 
                     if (self.bodyMode == Player.BodyModeIndex.ZeroG)
                     {

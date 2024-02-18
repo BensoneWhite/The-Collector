@@ -410,3 +410,16 @@ src/obj/project.nuget.cache
 src/obj/TheCollector.csproj.nuget.dgspec.json
 src/obj/TheCollector.csproj.nuget.g.props
 src/obj/Debug/net48/TheCollector.AssemblyInfoInputs.cache
+src/bin/Debug/net48/TheCollector.dll
+src/bin/Debug/net48/TheCollector.pdb
+src/obj/Debug/net48/TheCollector.AssemblyInfo.cs
+src/obj/Debug/net48/TheCollector.AssemblyInfoInputs.cache
+src/obj/Debug/net48/TheCollector.assets.cache
+src/obj/Debug/net48/TheCollector.csproj.AssemblyReference.cache
+src/obj/Debug/net48/TheCollector.GeneratedMSBuildEditorConfig.editorconfig
+src/obj/project.assets.json
+src/obj/project.nuget.cache
+src/obj/TheCollector.csproj.nuget.dgspec.json
+src/obj/TheCollector.csproj.nuget.g.props
+src/bin/Debug/net48/TheCollector.pdb
+src/obj/Debug/net48/TheCollector.AssemblyInfo.cs
