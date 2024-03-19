@@ -16,23 +16,24 @@
   </PropertyGroup>
 	
 	<PropertyGroup>
-		<!-- Fix the default copy local behaviour changed in VS 2015 -->
 		<DoNotCopyLocalIfInGac>true</DoNotCopyLocalIfInGac>
 	</PropertyGroup>
-  
+
 	<Target Name="GenerateMod" AfterTargets="PostBuildEvent">
 		<ItemGroup>
-			<RemovePlugins Include="../TheCollector/plugins/*.dll" />
+			<RemovePlugins Include="../mod/newest/plugins/*.dll" />
+			<RemovePDBs Include="$(OutDir)*.pdb" />
 		</ItemGroup>
 		<ItemGroup>
 			<CopyPlugins Include="$(TargetPath)" />
+			<CopyPDBs Include="$(OutDir)*.pdb" />
 		</ItemGroup>
-		
-        <Delete Files="@(RemovePlugins)" />
-        <Copy SourceFiles="@(CopyPlugins)" DestinationFolder="../mod/plugins/" />
-    </Target>
-		
-  <ItemGroup>
+		<Delete Files="@(RemovePlugins)" />
+		<Copy SourceFiles="@(CopyPlugins);@(CopyPDBs)" DestinationFolder="../mod/newest/plugins/" />
+	</Target>
+
+
+	<ItemGroup>
         <Reference Include="../lib/*.dll">
             <Private>false</Private>
         </Reference>

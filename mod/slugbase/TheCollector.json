@@ -36,22 +36,12 @@
 		"food_min": 7,
 		"food_max": 10,
 		"weight": [1, 0.9],
-		
-		"collector/SlideStamina": 2000,
-		"collector/SlideRecovery": 1,
-		"collector/SlideSpeed": 3,
-		"collector/Collector": true,
 
 		"alignments": 
 		{
 			"Scavengers": { "like": -1.5, "strength": 0.2, "locked": false }
 		},
 		
-		"diet": 
-		{
-			"corpses": 0.5,
-			"plants": 1,
-			"meat": 1,
-		}	
+		"diet": { "corpses": 0.5, "plants": 1, "meat": 1, }	
 	}
 }

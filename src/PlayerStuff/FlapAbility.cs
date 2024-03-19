@@ -29,7 +29,7 @@ namespace TheCollector
             var input = self.input;
             var jumps = 1;
 
-            if (!self.dead && self.SlugCatClass.value == "TheCollector" && self != null && room != null)
+            if (!self.dead && self != null && room != null)
             {
                 if (player.JumpCollectorLock > 0)
                 {
