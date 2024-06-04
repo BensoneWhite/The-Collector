@@ -42,7 +42,6 @@ namespace TheCollector
         public static class Color
         {
         }
-
     }
 }
 

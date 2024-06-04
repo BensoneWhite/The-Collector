@@ -83,7 +83,21 @@ namespace TheCollector
             {
                 return false;
             }
-            return SlideStamina > 0 && preventSlide == 0 && player.canJump <= 0 && player.bodyMode != Player.BodyModeIndex.Crawl && player.bodyMode != Player.BodyModeIndex.CorridorClimb && player.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && player.animation != Player.AnimationIndex.HangFromBeam && player.animation != Player.AnimationIndex.ClimbOnBeam && player.bodyMode != Player.BodyModeIndex.WallClimb && player.bodyMode != Player.BodyModeIndex.Swimming && player.Consious && !player.Stunned && player.animation != Player.AnimationIndex.AntlerClimb && player.animation != Player.AnimationIndex.VineGrab && player.animation != Player.AnimationIndex.ZeroGPoleGrab;
+            return SlideStamina > 0
+                && preventSlide == 0
+                && player.canJump <= 0
+                && player.bodyMode != Player.BodyModeIndex.Crawl
+                && player.bodyMode != Player.BodyModeIndex.CorridorClimb
+                && player.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut
+                && player.animation != Player.AnimationIndex.HangFromBeam
+                && player.animation != Player.AnimationIndex.ClimbOnBeam
+                && player.bodyMode != Player.BodyModeIndex.WallClimb
+                && player.bodyMode != Player.BodyModeIndex.Swimming
+                && player.Consious
+                && !player.Stunned
+                && player.animation != Player.AnimationIndex.AntlerClimb
+                && player.animation != Player.AnimationIndex.VineGrab
+                && player.animation != Player.AnimationIndex.ZeroGPoleGrab;
         }
 
         public int JumpCollectorLock;

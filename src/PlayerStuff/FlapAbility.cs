@@ -27,7 +27,7 @@ namespace TheCollector
 
             var room = self.room;
             var input = self.input;
-            var jumps = 1;
+            var jumps = 2;
 
             if (!self.dead && self != null && room != null)
             {
