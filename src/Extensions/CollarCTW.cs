@@ -1,11 +1,10 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace TheCollector.Extensions;
+﻿namespace TheCollector;
 
 public static class CollarCWT
 {
     private static readonly ConditionalWeakTable<Player, Disdain> CWT = new();
     public static Disdain Yippee(this Player player) => CWT.GetValue(player, _ => new(player));
+
     public class Disdain
     {
         public PorlCollection porlztorage;

@@ -42,6 +42,6 @@
 			"Scavengers": { "like": -1.5, "strength": 0.2, "locked": false }
 		},
 		
-		"diet": { "corpses": 0.5, "plants": 1, "meat": 1, }	
+		"diet": { "corpses": 0.5, "plants": 1, "meat": 1 }	
 	}
 }
